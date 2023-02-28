@@ -126,7 +126,7 @@ namespace apiProductCore.Controllers
 
 					cmd.ExecuteNonQuery();
 				}
-				return StatusCode(StatusCodes.Status200OK, new { mensaje = "ok" });
+				return StatusCode(StatusCodes.Status200OK, new { mensaje = "Guardado" });
 			}
 			catch (Exception error)
 			{
@@ -159,6 +159,33 @@ namespace apiProductCore.Controllers
 				}
 
 				return StatusCode(StatusCodes.Status200OK, new { mensaje = "editado" });
+			}
+			catch (Exception error)
+			{
+				return StatusCode(StatusCodes.Status500InternalServerError, new { mensaje = error.Message });
+			}
+		}
+
+		[HttpDelete]
+		[Route("Eliminar/{idProducto:int}")]
+
+		public IActionResult Eliminar(int idProducto)
+		{
+
+			try
+			{
+				using (var conexion = new SqlConnection(cadenaSQL))
+				{
+					conexion.Open();
+					var cmd = new SqlCommand("sp_eliminar_producto", conexion);
+					cmd.Parameters.AddWithValue("idProducto", idProducto);
+					cmd.CommandType = CommandType.StoredProcedure;
+
+					cmd.ExecuteNonQuery();
+
+				}
+
+				return StatusCode(StatusCodes.Status200OK, new { mensaje = "eliminado" });
 			}
 			catch (Exception error)
 			{
