@@ -155,7 +155,9 @@ namespace apiProductCore.Controllers
 					cmd.CommandType = CommandType.StoredProcedure;
 
 					cmd.ExecuteNonQuery();
+
 				}
+
 				return StatusCode(StatusCodes.Status200OK, new { mensaje = "editado" });
 			}
 			catch (Exception error)
